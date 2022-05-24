@@ -10,6 +10,7 @@
     "commit": "cz"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.0.0-beta.0",
     "core-js": "^3.8.3",
     "element-plus": "^2.2.2",
     "vue": "^3.2.13",
@@ -36,6 +37,7 @@
     "prettier": "^2.4.1",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
+    "svg-sprite-loader": "^6.0.9",
     "unplugin-auto-import": "^0.7.2",
     "unplugin-vue-components": "^0.19.5"
   },
@@ -52,7 +54,16 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "vue/multi-word-component-names": [
+        "error",
+        {
+          "ignores": [
+            "Index"
+          ]
+        }
+      ]
+    }
   },
   "browserslist": [
     "> 1%",

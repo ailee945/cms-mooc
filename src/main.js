@@ -3,4 +3,13 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
-createApp(App).use(store).use(router).mount('#app');
+// 初始化样式
+import './styles/index.scss';
+
+const app = createApp(App);
+
+// 全局导入svg
+import installSvg from '@/icons';
+installSvg(app);
+
+app.use(store).use(router).mount('#app');
