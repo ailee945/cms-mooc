@@ -10,6 +10,17 @@ function resolve(dir) {
 
 module.exports = defineConfig({
   transpileDependencies: true,
+  // proxy
+  devServer: {
+    proxy: {
+      // 触发机制
+      '/api': {
+        // 要代理的服务器地址  这里不用写 api
+        target: 'https://api.imooc-admin.lgdsunday.club/',
+        changeOrigin: true, // 是否跨域
+      },
+    },
+  },
   configureWebpack: {
     plugins: [
       AutoImport({

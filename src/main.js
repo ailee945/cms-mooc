@@ -6,7 +6,8 @@ import store from './store';
 // 初始化样式
 import './styles/index.scss';
 
-// import service from './utils/request';
+// 登录鉴权
+import './permission';
 
 const app = createApp(App);
 

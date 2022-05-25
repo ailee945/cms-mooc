@@ -7,7 +7,7 @@ const svgRequire = require.context('./svg', false, /\.svg$/);
 svgRequire.keys().forEach((icon) => svgRequire(icon));
 
 // 2. 完成SvgIcon组件的全局注册
-import SvgIcon from '@/components/SvgIcon/Index';
+import SvgIcon from '@/components/SvgIcon/SvgIcon';
 export default (app) => {
   app.component('svg-icon', SvgIcon);
 };

@@ -5,6 +5,7 @@
       :model="loginForm"
       :rules="loginRules"
       label-width="70px"
+      ref="loginFormRef"
     >
       <div class="title-container">
         <h3 class="title">用户登录</h3>
@@ -44,6 +45,8 @@
       <el-button
         type="primary"
         style="width: 60%; transform: translateX(50%); margin-top: 5px"
+        @click="handleLogin"
+        :loading="loading"
         >登录</el-button
       >
     </el-form>
@@ -52,6 +55,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
 import { validatePassword } from './index.js';
 
 // 数据源
@@ -72,7 +76,7 @@ const loginRules = ref({
   password: [
     {
       required: true,
-      trigger: 'change',
+      trigger: 'blur',
       validator: validatePassword(),
     },
   ],
@@ -81,6 +85,30 @@ const loginRules = ref({
 // 处理密码明文显示
 // script中使用响应式数据需要.value, 插值语法中则不需要
 // console.log(loginForm.value.username);
+
+// 处理登录
+const loading = ref(false);
+const store = useStore();
+const loginFormRef = ref(null);
+const handleLogin = () => {
+  // 1. 进行表单校验
+  loginFormRef.value.validate((valid) => {
+    if (!valid) return;
+    // 2. 触发登录动作
+    loading.value = true;
+    store
+      .dispatch('user/login', loginForm.value)
+      .then(() => {
+        // console.log(loginFormRef.value);
+        loading.value = false;
+        // 3. 进行登录后处理
+      })
+      .catch((err) => {
+        console.log(err);
+        loading.value = false;
+      });
+  });
+};
 </script>
 
 <style lang="scss" scoped>
