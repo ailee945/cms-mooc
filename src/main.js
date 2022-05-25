@@ -6,6 +6,8 @@ import store from './store';
 // 初始化样式
 import './styles/index.scss';
 
+// import service from './utils/request';
+
 const app = createApp(App);
 
 // 全局导入svg

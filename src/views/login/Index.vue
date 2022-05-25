@@ -1,34 +1,49 @@
 <template>
   <div class="login-container">
-    <el-form class="login-form" ref="loginFromRef" label-width="60px">
+    <el-form
+      class="login-form"
+      :model="loginForm"
+      :rules="loginRules"
+      label-width="70px"
+    >
       <div class="title-container">
         <h3 class="title">用户登录</h3>
       </div>
+
       <!-- username -->
-      <el-form-item label="用户名">
-        <span class="svg-container">
+      <el-form-item prop="username" label="用户名">
+        <!-- <span class="svg-container">
           <svg-icon icon="user" />
-        </span>
-        <el-input placeholder="username" name="username" type="text" />
+        </span> -->
+        <el-input
+          placeholder="username"
+          name="username"
+          type="text"
+          v-model="loginForm.username"
+        />
       </el-form-item>
 
       <!-- password -->
-      <el-form-item label="密码">
-        <span class="svg-container">
+      <el-form-item prop="password" label="密码">
+        <!-- <span class="svg-container">
           <svg-icon icon="password" />
-        </span>
+        </span> -->
         <el-input
           lable="密码"
-          v-model="input"
+          v-model="loginForm.password"
           type="password"
-          placeholder="Please input password"
+          placeholder="password"
           show-password
         />
-        <span class="svg-container">
+        <!-- <span class="show-pwd">
           <svg-icon icon="eye" />
-        </span>
+        </span> -->
       </el-form-item>
-      <el-button type="primary" style="width: 50%; transform: translate(50%, 0)"
+
+      <!-- 登录按钮 -->
+      <el-button
+        type="primary"
+        style="width: 60%; transform: translateX(50%); margin-top: 5px"
         >登录</el-button
       >
     </el-form>
@@ -37,7 +52,35 @@
 
 <script setup>
 import { ref } from 'vue';
-const input = ref('');
+import { validatePassword } from './index.js';
+
+// 数据源
+const loginForm = ref({
+  username: 'super-admin',
+  password: '123456',
+});
+
+// 验证规则
+const loginRules = ref({
+  username: [
+    {
+      required: true,
+      trigger: 'blur',
+      message: '用户名不能为空',
+    },
+  ],
+  password: [
+    {
+      required: true,
+      trigger: 'change',
+      validator: validatePassword(),
+    },
+  ],
+});
+
+// 处理密码明文显示
+// script中使用响应式数据需要.value, 插值语法中则不需要
+// console.log(loginForm.value.username);
 </script>
 
 <style lang="scss" scoped>
@@ -54,7 +97,7 @@ $cursor: #fff;
 
   .login-form {
     position: relative;
-    width: 520px;
+    width: 400px;
     max-width: 100%;
     padding: 160px 35px 0;
     margin: 0 auto;
@@ -85,12 +128,12 @@ $cursor: #fff;
     }
   }
 
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    display: inline-block;
-  }
+  // .svg-container {
+  //   padding: 6px 5px 6px 15px;
+  //   color: $dark_gray;
+  //   vertical-align: middle;
+  //   display: inline-block;
+  // }
 
   .title-container {
     position: relative;
@@ -104,14 +147,14 @@ $cursor: #fff;
     }
   }
 
-  .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
-    cursor: pointer;
-    user-select: none;
-  }
+  // .show-pwd {
+  //   position: absolute;
+  //   right: 10px;
+  //   top: 7px;
+  //   font-size: 16px;
+  //   color: $dark_gray;
+  //   cursor: pointer;
+  //   user-select: none;
+  // }
 }
 </style>
