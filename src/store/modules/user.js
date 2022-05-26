@@ -1,13 +1,15 @@
-import { login } from '@/api/sys';
+import { login, getUserInfo } from '@/api/sys';
 import md5 from 'md5';
 import { TOKEN } from '@/constant';
-import { setItem, getItem } from '@/utils/storage';
+import { setItem, getItem, removeAllItem } from '@/utils/storage';
+import { setTimeStamp } from '@/utils/auth';
 import router from '@/router';
 
 export default {
   namespaced: true,
   state: {
     token: getItem(TOKEN) || '',
+    userInfo: {},
   },
   getters: {},
   mutations: {
@@ -16,9 +18,14 @@ export default {
       setItem(TOKEN, token);
       // console.log(state.token);
     },
+    setUserInfo(state, userInfo) {
+      // console.log('setuserinfo');
+      state.userInfo = userInfo;
+    },
   },
   actions: {
-    login({ commit }, userInfo) {
+    // 登录动作
+    loginAction({ commit }, userInfo) {
       const { username, password } = userInfo;
       return new Promise((resolve, reject) => {
         login({
@@ -28,6 +35,8 @@ export default {
           .then((data) => {
             // console.log(data.token);
             commit('setToken', data.token);
+            // 保存登录时间戳
+            setTimeStamp();
             router.push('/');
             resolve(data);
           })
@@ -35,6 +44,22 @@ export default {
             reject(err);
           });
       });
+    },
+    // 获取用户信息动作
+    async getUserInfoAction({ commit }) {
+      // console.log('getinfoaction');
+      const res = await getUserInfo();
+      commit('setUserInfo', res);
+      // console.log(res);
+      return res;
+    },
+    // 退出登录
+    logoutAction({ commit }) {
+      commit('setToken', '');
+      commit('setUserInfo', '');
+      removeAllItem();
+      // TODO: 处理权限相关
+      router.push('/login');
     },
   },
 };

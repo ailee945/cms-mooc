@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
+import store from '@/store';
 // import md5 from 'md5';
+import { isCheckTimeout } from './auth';
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -8,13 +10,31 @@ const service = axios.create({
 });
 
 // 请求拦截器
-service.interceptors.request.use((config) => {
-  // const { icode, time } = getTestICode();
-  config.headers.icode = 'ED5BD770A85A4C12';
-  // config.headers.icode = icode;
-  // config.headers.codeType = time;
-  return config; // 必须返回配置
-});
+service.interceptors.request.use(
+  // 请求成功拦截器
+  (config) => {
+    // 请求添加icode
+    // const { icode, time } = getTestICode();
+    config.headers.icode = 'ED5BD770A85A4C12';
+    // config.headers.icode = icode;
+    // config.headers.codeType = time;
+
+    // 统一携带token
+    if (store.getters.token) {
+      if (isCheckTimeout()) {
+        store.dispatch('user/logoutAction');
+        // 返回一个含有错误信息的Promise
+        return Promise.reject(new Error('token 失效'));
+      }
+      config.headers.Authorization = `Bearer ${store.getters.token}`;
+    }
+    return config; // 必须返回配置
+  },
+  // 请求失败拦截器
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 // 响应拦截器
 service.interceptors.response.use(
@@ -31,7 +51,15 @@ service.interceptors.response.use(
   },
   // 请求失败
   (error) => {
-    ElMessage.error(error);
+    // 服务端 token 失效
+    if (
+      error.response &&
+      error.response.data &&
+      error.response.data.code === '401'
+    ) {
+      store.dispatch('user/logoutAction');
+    }
+    ElMessage.error(error.message);
     return Promise.reject(error);
   }
 );

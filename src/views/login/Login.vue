@@ -97,7 +97,7 @@ const handleLogin = () => {
     // 2. 触发登录动作
     loading.value = true;
     store
-      .dispatch('user/login', loginForm.value)
+      .dispatch('user/loginAction', loginForm.value)
       .then(() => {
         // console.log(loginFormRef.value);
         loading.value = false;

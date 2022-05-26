@@ -1,7 +1,64 @@
 <template>
-  <div>navbar</div>
+  <div class="navbar">
+    <div class="right-menu">
+      <el-dropdown class="avatar-container" trigger="hover">
+        <!-- 头像区域 -->
+        <div class="avatar-wrapper">
+          <el-avatar
+            square="circle"
+            :src="$store.getters.userInfo.avatar"
+          ></el-avatar>
+          <!-- 设置区域 -->
+          <!-- <i class="user-icon-s-tools">nihao </i> -->
+        </div>
+        <template #dropdown>
+          <el-dropdown-item calss="user-down">
+            <router-link to="/">个人主页</router-link>
+          </el-dropdown-item>
+          <a href="https://www.baidu.com" target="__blank">
+            <el-dropdown-item>百度主页</el-dropdown-item>
+          </a>
+          <el-dropdown-item @click="logout" divided>退出登录</el-dropdown-item>
+        </template>
+      </el-dropdown>
+    </div>
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useStore } from 'vuex';
+const store = useStore();
+const logout = () => {
+  store.dispatch('user/logoutAction');
+};
+</script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.navbar {
+  height: 50px;
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+
+  .right-menu {
+    display: flex;
+    align-items: center;
+    float: right;
+    padding-top: 5px;
+    padding-right: 16px;
+
+    :v-deep .avatar-container {
+      cursor: pointer;
+      .avatar-wrapper {
+        margin-top: 5px;
+        position: relative;
+        .el-avatar {
+          --el-avatar-background-color: none;
+          margin-right: 12px;
+        }
+      }
+    }
+  }
+}
+</style>
