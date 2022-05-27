@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <h1 style="text-align: center">占位</h1>
+    <h1>占位</h1>
     <el-scrollbar>
       <SidebarMenu />
     </el-scrollbar>
