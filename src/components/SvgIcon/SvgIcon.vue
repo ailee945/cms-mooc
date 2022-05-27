@@ -14,7 +14,8 @@
 
 <script setup>
 import { isExternal as external } from '@/utils/validate';
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
+// eslint-disable-next-line no-undef
 const props = defineProps({
   icon: {
     type: String,

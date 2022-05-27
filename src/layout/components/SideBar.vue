@@ -1,7 +1,7 @@
-<template>
-  <div>sidebar</div>
-</template>
+<template><Index /></template>
 
-<script setup></script>
+<script setup>
+import Index from './Sidebar/index.vue';
+</script>
 
 <style lang="scss" scoped></style>

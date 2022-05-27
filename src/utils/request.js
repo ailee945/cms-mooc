@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 import store from '@/store';
-// import md5 from 'md5';
+import md5 from 'md5';
 import { isCheckTimeout } from './auth';
 
 const service = axios.create({
@@ -14,10 +14,10 @@ service.interceptors.request.use(
   // 请求成功拦截器
   (config) => {
     // 请求添加icode
-    // const { icode, time } = getTestICode();
+    const { icode, time } = getTestICode();
     config.headers.icode = 'ED5BD770A85A4C12';
-    // config.headers.icode = icode;
-    // config.headers.codeType = time;
+    config.headers.icode = icode;
+    config.headers.codeType = time;
 
     // 统一携带token
     if (store.getters.token) {
@@ -67,13 +67,13 @@ service.interceptors.response.use(
 /**
  * 返回 Icode 的实现
  */
-// function getTestICode() {
-//   const now = parseInt(Date.now() / 1000);
-//   const code = now + 'LGD_Sunday-1991';
-//   return {
-//     icode: md5(code),
-//     time: now,
-//   };
-// }
+function getTestICode() {
+  const now = parseInt(Date.now() / 1000);
+  const code = now + 'LGD_Sunday-1991';
+  return {
+    icode: md5(code),
+    time: now,
+  };
+}
 
 export default service;

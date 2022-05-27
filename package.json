@@ -62,7 +62,9 @@
         {
           "ignores": [
             "Login",
-            "Index"
+            "index",
+            "401",
+            "404"
           ]
         }
       ]
