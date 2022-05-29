@@ -1,3 +1,4 @@
+/* eslint-disable vue/valid-v-model */
 <template>
   <el-dropdown
     v-bind="$attrs"
@@ -21,11 +22,16 @@
     </template>
   </el-dropdown>
   <!-- 弹出层 -->
-  <div></div>
+  // eslint-disable-next-line vue/valid-v-model
+  <div><SelectColor /></div>
 </template>
 
 <script setup>
+import SelectColor from './components/SelectColor.vue';
 const handleSetTheme = (color) => color;
+
+// dialog
+// eslint-disable-next-line no-unused-vars
 </script>
 
 <style lang="scss" scoped></style>
