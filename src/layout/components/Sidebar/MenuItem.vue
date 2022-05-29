@@ -8,11 +8,12 @@
   <!-- 非el-icon -->
   <SvgIcon v-else :icon="icon" />
   <!-- 文本 -->
-  <span>{{ title }}</span>
+  <span>{{ generateTitle(title) }}</span>
 </template>
 
 <script setup>
 import SvgIcon from '@/components/SvgIcon/SvgIcon.vue';
+import { generateTitle } from '@/utils/i18n';
 // eslint-disable-next-line no-undef
 defineProps({
   title: {

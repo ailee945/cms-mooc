@@ -1,5 +1,9 @@
 <template>
-  <div class="">个人中心</div>
+  <div class="">
+    <h1 class="logo-title" v-if="$store.getters.sidebarOpened">
+      {{ $t('msg.toast.switchLangSuccess') }}
+    </h1>
+  </div>
 </template>
 
 <script setup>

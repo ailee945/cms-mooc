@@ -4,8 +4,12 @@
     <Hamburger calss="hamburger-container" />
     <Breadcrumb class="breadcrumb" />
     <div class="right-menu">
+      <!-- 主题切换 -->
+      <ThemeSelect class="right-menu-item hover-effect" />
+      <!-- 语言切换 -->
+      <LangSelect class="right-menu-item hover-effect" />
+      <!-- 头像区域 -->
       <el-dropdown class="avatar-container" trigger="hover">
-        <!-- 头像区域 -->
         <div class="avatar-wrapper">
           <el-avatar
             square="circle"
@@ -16,12 +20,14 @@
         </div>
         <template #dropdown>
           <el-dropdown-item calss="user-down">
-            <router-link to="/">个人主页</router-link>
+            <router-link to="/">{{ $t('msg.navBar.home') }}</router-link>
           </el-dropdown-item>
           <a href="https://www.baidu.com" target="__blank">
-            <el-dropdown-item>百度主页</el-dropdown-item>
+            <el-dropdown-item>{{ $t('msg.navBar.course') }}</el-dropdown-item>
           </a>
-          <el-dropdown-item @click="logout" divided>退出登录</el-dropdown-item>
+          <el-dropdown-item @click="logout" divided>{{
+            $t('msg.navBar.logout')
+          }}</el-dropdown-item>
         </template>
       </el-dropdown>
     </div>
@@ -32,6 +38,8 @@
 import { useStore } from 'vuex';
 import Hamburger from './hamburger/index.vue';
 import Breadcrumb from './breadcrumd/index.vue';
+import LangSelect from '@/components/LangSelect/index.vue';
+import ThemeSelect from '@/components/ThemeSelect/index.vue';
 const store = useStore();
 const logout = () => {
   store.dispatch('user/logoutAction');
@@ -67,14 +75,33 @@ const logout = () => {
     padding-top: 5px;
     padding-right: 16px;
 
-    :v-deep .avatar-container {
-      cursor: pointer;
-      .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
-        .el-avatar {
-          --el-avatar-background-color: none;
-          margin-right: 12px;
+    .right-menu-item {
+      display: inline-block;
+      padding: 0 18px 0 0;
+      // width: 24px;
+      // height: 24px;
+      font-size: 24px;
+      color: #5a5e66;
+      vertical-align: text-bottom;
+
+      &.hover-effect {
+        cursor: pointer;
+        transition: background 0.3s;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.025);
+        }
+      }
+
+      :v-deep .avatar-container {
+        cursor: pointer;
+        .avatar-wrapper {
+          margin-top: 5px;
+          position: relative;
+          .el-avatar {
+            --el-avatar-background-color: none;
+            margin-right: 12px;
+          }
         }
       }
     }
