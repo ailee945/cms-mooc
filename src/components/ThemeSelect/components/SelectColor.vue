@@ -25,6 +25,7 @@
 
 <script setup>
 import { ref } from 'vue';
+
 // eslint-disable-next-line no-undef
 defineProps({
   modelValue: {
@@ -34,13 +35,7 @@ defineProps({
 });
 // eslint-disable-next-line no-undef
 const emits = defineEmits(['update:modelValue']);
-// 取消事件和确定事件
-const colsed = () => {
-  emits('update:modelValue', false);
-};
-const confirm = () => {
-  close();
-};
+
 // 预定义色值
 const predefineColors = [
   '#ff4500',
@@ -60,6 +55,14 @@ const predefineColors = [
 ];
 // 默认色值
 const myColor = ref('#00ff00');
+
+// 取消事件和确定事件
+const colsed = () => {
+  emits('update:modelValue', false);
+};
+const confirm = () => {
+  close();
+};
 </script>
 
 <style lang="scss" scoped></style>

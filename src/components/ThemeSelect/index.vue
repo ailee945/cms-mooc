@@ -1,4 +1,3 @@
-/* eslint-disable vue/valid-v-model */
 <template>
   <el-dropdown
     v-bind="$attrs"
@@ -22,7 +21,6 @@
     </template>
   </el-dropdown>
   <!-- 弹出层 -->
-  // eslint-disable-next-line vue/valid-v-model
   <div><SelectColor /></div>
 </template>
 
