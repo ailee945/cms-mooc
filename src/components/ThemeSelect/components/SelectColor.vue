@@ -3,8 +3,8 @@
   <el-dialog
     :title="$t('msg.universal.title')"
     :model-value="modelValue"
-    @close="colsed"
-    width="22%"
+    @close="closed"
+    width="25%"
   >
     <!-- 内容区 -->
     <div class="content">
@@ -16,7 +16,7 @@
     </div>
     <!-- footer -->
     <template #footer>
-      <el-button @click="colsed">{{ $t('msg.universal.cancel') }}</el-button>
+      <el-button @click="closed">{{ $t('msg.universal.cancel') }}</el-button>
       <el-button type="primary" @click="confirm">{{
         $t('msg.universal.confirm')
       }}</el-button>
@@ -26,6 +26,11 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
+
+import { generateNewStyle, writeNewStyle } from '@/utils/theme';
+
+const store = useStore();
 
 // eslint-disable-next-line no-undef
 defineProps({
@@ -55,15 +60,25 @@ const predefineColors = [
   '#c7158577',
 ];
 // 默认色值
-const myColor = ref('#00ff00');
+const myColor = ref(store.getters.mainColor);
 
 // 取消事件和确定事件
-const colsed = () => {
+const closed = () => {
   emits('update:modelValue', false);
 };
-const confirm = () => {
+const confirm = async () => {
+  const newStyle = await generateNewStyle(myColor.value);
+  writeNewStyle(newStyle);
+  store.commit('theme/setMainColor', myColor.value);
   closed();
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.content {
+  text-align: center;
+  .title {
+    margin-bottom: 12px;
+  }
+}
+</style>

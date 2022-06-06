@@ -3,9 +3,14 @@
     <!-- 汉堡按钮 -->
     <Hamburger calss="hamburger-container" />
     <Breadcrumb class="breadcrumb" />
+
     <div class="right-menu">
+      <!-- search -->
+      <HeaderSearch class="right-menu-item hover-effect" />
+      <!-- 全屏切换 -->
+      <Screenfull class="right-menu-item hover-effect" />
       <!-- 主题切换 -->
-      <ThemeSelect class="right-menu-item hover-effect" />
+      <!-- <ThemeSelect class="right-menu-item hover-effect" /> -->
       <!-- 语言切换 -->
       <LangSelect class="right-menu-item hover-effect" />
       <!-- 头像区域 -->
@@ -39,7 +44,9 @@ import { useStore } from 'vuex';
 import Hamburger from './hamburger/index.vue';
 import Breadcrumb from './breadcrumd/index.vue';
 import LangSelect from '@/components/LangSelect/index.vue';
-import ThemeSelect from '@/components/ThemeSelect/index.vue';
+import Screenfull from './screenfull/index.vue';
+import HeaderSearch from '@/components/HeaderSearch/index.vue';
+// import ThemeSelect from '@/components/ThemeSelect/index.vue';
 const store = useStore();
 const logout = () => {
   store.dispatch('user/logoutAction');
@@ -93,7 +100,7 @@ const logout = () => {
         }
       }
 
-      :v-deep .avatar-container {
+      :deep(.avatar-container) {
         cursor: pointer;
         .avatar-wrapper {
           margin-top: 5px;
