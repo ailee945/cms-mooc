@@ -4,7 +4,7 @@
     :title="$t('msg.universal.title')"
     :model-value="modelValue"
     @close="colsed"
-    width="22px"
+    width="22%"
   >
     <!-- 内容区 -->
     <div class="content">
@@ -14,6 +14,7 @@
         :predefine="predefineColors"
       ></el-color-picker>
     </div>
+    <!-- footer -->
     <template #footer>
       <el-button @click="colsed">{{ $t('msg.universal.cancel') }}</el-button>
       <el-button type="primary" @click="confirm">{{
@@ -61,7 +62,7 @@ const colsed = () => {
   emits('update:modelValue', false);
 };
 const confirm = () => {
-  close();
+  closed();
 };
 </script>
 
