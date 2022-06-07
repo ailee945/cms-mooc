@@ -13,31 +13,47 @@
       @change="onSelectChange"
     >
       <el-option
-        v-for="option in 5"
-        :key="option"
-        :label="option"
-        :value="option"
-        >{{ option }}</el-option
-      >
+        v-for="option in searchOption"
+        :key="option.item.path"
+        :label="option.item.title.join('>')"
+        :value="option.item"
+      ></el-option>
     </el-select>
   </div>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue';
-import { filterRoutes, generateMenus } from '@/utils/route';
+import { filterRoutes } from '@/utils/route';
+import { generateRoutes } from './FuseData';
 import { useRouter } from 'vue-router';
-// import Fuse from 'fuse.js';
+import Fuse from 'fuse.js';
 
 // 数据源
 const router = useRouter();
-// eslint-disable-next-line no-unused-vars
 const searchPool = computed(() => {
   const routes = filterRoutes(router.getRoutes());
-  return generateMenus(routes);
+  return generateRoutes(routes);
 });
 
 // 模糊搜索相关
+const fuse = new Fuse(searchPool.value, {
+  // 是否按照优先级进行排序
+  shouldSort: true,
+  // 匹配长度超过这个时开始匹配
+  minMatchCharLength: 1,
+  // 将被搜索的键列表
+  keys: [
+    {
+      name: 'title',
+      weight: 0.7,
+    },
+    {
+      name: 'path',
+      weight: 0.3,
+    },
+  ],
+});
 
 // 控制search展示
 const isShow = ref(false);
@@ -47,13 +63,18 @@ const onShowClick = () => {
 
 // search相关
 const search = ref('');
-// 选中回调
-const querySearch = () => {
-  console.log('remote-method');
+// 搜索方法
+const searchOption = ref([]);
+const querySearch = (query) => {
+  if (query !== '') {
+    searchOption.value = fuse.search(query);
+  } else {
+    searchOption.value = [];
+  }
 };
-// selectChange方法
-const onSelectChange = () => {
-  console.log('on-select-change');
+// 选中回调
+const onSelectChange = (val) => {
+  router.push(val.path);
 };
 </script>
 

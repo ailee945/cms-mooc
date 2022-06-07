@@ -17,6 +17,7 @@
         <NavBar />
       </div>
       <!-- 内容区 -->
+      <TagsView />
       <AppMain />
     </div>
   </div>
@@ -27,6 +28,7 @@ import SideBar from './components/Sidebar/index';
 import NavBar from './components/NavBar.vue';
 import AppMain from './components/AppMain.vue';
 import variables from '@/styles/variables.module.scss';
+import TagsView from '@/components/TagsView/index.vue';
 </script>
 
 <style lang="scss" scoped>
